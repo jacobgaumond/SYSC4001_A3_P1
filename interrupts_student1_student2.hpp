@@ -1,7 +1,8 @@
 /**
  * @file interrupts.hpp
- * @author Sasisekhar Govind
- * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
+ * @author Daniel Kuchanski
+ * @author Jacob Gaumond
+ * @brief main.hpp file for Assignment 3 Part 1 of SYSC4001
  * 
  */
 

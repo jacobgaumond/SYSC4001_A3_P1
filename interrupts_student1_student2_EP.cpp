@@ -1,7 +1,8 @@
 /**
  * @file interrupts.cpp
- * @author Sasisekhar Govind
- * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
+ * @author Daniel Kuchanski
+ * @author Jacob Gaumond
+ * @brief main.cpp file of system with external priorities (no preemption) scheduling for Assignment 3 Part 1 of SYSC4001
  * 
  */
 
