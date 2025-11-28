@@ -1,5 +1,5 @@
 /**
- * @file interrupts.cpp
+ * @file interrupts_EP_RR_DanielKuchanski_JacobGaumond.cpp
  * @author Daniel Kuchanski
  * @author Jacob Gaumond
  * @brief main.cpp file of system with external priorities (with premption and a 100ms timeout, in round-robin fashion) scheduling for Assignment 3 Part 1 of SYSC4001

@@ -1,5 +1,5 @@
 /**
- * @file interrupts.cpp
+ * @file interrupts_EP_DanielKuchanski_JacobGaumond.cpp
  * @author Daniel Kuchanski
  * @author Jacob Gaumond
  * @brief main.cpp file of system with external priorities (no preemption) scheduling for Assignment 3 Part 1 of SYSC4001

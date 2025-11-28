@@ -1,5 +1,5 @@
 /**
- * @file interrupts.hpp
+ * @file interrupts_DanielKuchanski_JacobGaumond.hpp
  * @author Daniel Kuchanski
  * @author Jacob Gaumond
  * @brief main.hpp file for Assignment 3 Part 1 of SYSC4001
