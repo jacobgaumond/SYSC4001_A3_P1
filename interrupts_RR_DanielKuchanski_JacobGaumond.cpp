@@ -46,18 +46,27 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         // 2) Manage the wait queue
         // 3) Schedule processes from the ready queue
 
-        //Population of ready queue is given to you as an example.
-        //Go through the list of proceeses
+        //Populate the ready queue with processes as they arrive
         for(auto &process : list_processes) {
             if(process.arrival_time == current_time) {//check if the AT = current time
-                //if so, assign memory and put the process into the ready queue
-                assign_memory(process);
-
-                process.state = READY;  //Set the process state to READY
-                ready_queue.push_back(process); //Add the process to the ready queue
+                //if so, change the process's state to NEW
+                process.state = NEW; //Set the process state to NEW
                 job_list.push_back(process); //Add it to the list of processes
 
-                execution_status += print_exec_status(current_time, process.PID, NEW, READY);
+                execution_status += print_exec_status(current_time, process.PID, NOT_ASSIGNED, NEW);
+            }
+        }
+
+        //Attempt to assign memory in the order of arrival (using job_list)
+        for(auto &process : job_list) {
+            if(process.state == NEW) { //Only assign memory to unadmitted processes
+                if(assign_memory(process)) {
+                    //If memory assigned successfully, put the process into the ready queue and update its state
+                    process.state = READY; //Set the process state to READY
+                    ready_queue.push_back(process); //Add thhe process to the ready queue
+
+                    execution_status += print_exec_status(current_time, process.PID, NEW, READY);
+                }
             }
         }
 
