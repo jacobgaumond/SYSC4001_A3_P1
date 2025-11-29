@@ -79,6 +79,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         FCFS(ready_queue); //example of FCFS is shown here
         /////////////////////////////////////////////////////////////////
 
+        //End each cycle by incrementing the clock
+        current_time += 1;
     }
     
     //Close the output table
