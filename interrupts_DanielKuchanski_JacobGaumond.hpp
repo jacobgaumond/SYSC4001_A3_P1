@@ -56,16 +56,16 @@ struct memory_partition{
 };
 
 struct PCB{
-    int             PID;
-    unsigned int    size;
-    unsigned int    arrival_time;
+    int             PID; //PID: a unique identifier for the process
+    unsigned int    size; //Memory Size: the size of the process when loaded in memory
+    unsigned int    arrival_time; //Arrival Time: the initial simulated time is 0, and the arrival time can be at 0 or afterwards. The time units to be used are milliseconds.
     int             start_time;
-    unsigned int    processing_time;
+    unsigned int    processing_time; //Total CPU Time
     unsigned int    remaining_time;
     int             partition_number;
     enum states     state;
-    unsigned int    io_freq;
-    unsigned int    io_duration;
+    unsigned int    io_freq; //I/O Frequency: the processes are assumed to make an input/output with this frequency
+    unsigned int    io_duration; //I/O duration: this is the duration for the I/O for each of the processes (assumed to be the same for all the I/O operations)
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
