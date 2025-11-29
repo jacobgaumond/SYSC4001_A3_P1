@@ -332,16 +332,18 @@ void remove_process_from_queue(std::vector<PCB> &process_queue, PCB _process) {
 }
 
 //Removes the process at the front of the queue
-void dequeue_process(std::vector<PCB> &process_queue) {
-    std::vector<PCB> new_queue;
+PCB dequeue_process(std::vector<PCB> &process_queue) {
+    PCB front_of_queue = process_queue.front();
 
+    std::vector<PCB> new_queue;
     for(auto &process : process_queue) {
-        if(process.PID != process_queue.front().PID) {
+        if(process.PID != front_of_queue.PID) {
             new_queue.push_back(process);
         }
     }
-
     process_queue = new_queue;
+
+    return front_of_queue;
 }
 
 #endif
