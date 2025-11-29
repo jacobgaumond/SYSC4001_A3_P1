@@ -64,7 +64,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 if(assign_memory(process)) {
                     //If memory assigned successfully, put the process into the ready queue and update its state
                     process.state = READY; //Set the process state to READY
-                    ready_queue.push_back(process); //Add thhe process to the ready queue
+                    sync_queue(job_list, process);
+                    ready_queue.push_back(process); //Add the process to the ready queue
 
                     execution_status += print_exec_status(current_time, process.PID, NEW, READY);
                 }
