@@ -80,6 +80,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             if(((current_time - running.start_time) + running.exe_time_without_io) == running.io_freq) {
                 running.state = WAITING;
                 running.remaining_time -= current_time - running.start_time;
+                running.exe_time_without_io += current_time - running.start_time;
                 running.start_time = -1;
                 sync_queue(job_list, running);
                 wait_queue.push_back(running);
