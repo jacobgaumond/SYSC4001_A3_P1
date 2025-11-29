@@ -316,4 +316,32 @@ void idle_CPU(PCB &running) {
     running.PID = -1;
 }
 
+//vector helper functions
+
+//Removes a given process from the queue
+void remove_process_from_queue(std::vector<PCB> &process_queue, PCB _process) {
+    std::vector<PCB> new_queue;
+
+    for(auto &process : process_queue) {
+        if(process.PID != _process.PID) {
+            new_queue.push_back(process);
+        }
+    }
+
+    process_queue = new_queue;
+}
+
+//Removes the process at the front of the queue
+void dequeue_process(std::vector<PCB> &process_queue) {
+    std::vector<PCB> new_queue;
+
+    for(auto &process : process_queue) {
+        if(process.PID != process_queue.front().PID) {
+            new_queue.push_back(process);
+        }
+    }
+
+    process_queue = new_queue;
+}
+
 #endif
