@@ -66,6 +66,7 @@ struct PCB{
     enum states     state;
     unsigned int    io_freq; //I/O Frequency: the processes are assumed to make an input/output with this frequency
     unsigned int    io_duration; //I/O duration: this is the duration for the I/O for each of the processes (assumed to be the same for all the I/O operations)
+    unsigned int    exe_time_without_io; //Total time spent RUNNING without an I/O; resets after each I/O
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -270,6 +271,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
+    process.exe_time_without_io = 0;
 
     return process;
 }

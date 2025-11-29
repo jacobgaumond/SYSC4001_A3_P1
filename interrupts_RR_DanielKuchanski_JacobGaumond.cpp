@@ -75,6 +75,40 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
 
+        //If the current RUNNING process is due for I/O, put it in the waiting queue
+        if(((current_time - running.start_time) + running.exe_time_without_io) == running.io_freq) {
+            running.state = WAITING;
+            running.remaining_time -= current_time - running.start_time;
+            running.start_time = -1;
+            sync_queue(job_list, running);
+            wait_queue.push_back(running);
+
+            execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+
+            idle_CPU(running);
+        }
+
+        //If I/O is available (it always is), send wait_queue processes to I/O
+        while(wait_queue.size() > 0) {
+            PCB waiting_process = dequeue_process(wait_queue);
+
+            waiting_process.exe_time_without_io = 0;
+            waiting_process.start_time = current_time;
+            sync_queue(job_list, waiting_process);
+        }
+
+        //If I/O is complete, send WAITING processes to the ready queue
+        for(auto &process : job_list) {
+            if(process.state == WAITING) {
+                if((current_time - process.start_time) == process.io_duration) {
+                    process.state = READY;
+                    process.start_time = -1;
+                    sync_queue(job_list, process);
+                    ready_queue.push_back(process);
+                }
+            }
+        }
+
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
