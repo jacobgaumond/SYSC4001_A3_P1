@@ -42,6 +42,20 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //This is the main reason I have job_list, you don't have to use it.
     while(!all_process_terminated(job_list) || job_list.empty()) {
 
+        //Terminate running if finished
+        if(running.state != NOT_ASSIGNED) {
+            if(((current_time - running.start_time) - running.remaining_time) == 0) {
+                running.state = TERMINATED;
+                running.remaining_time -= current_time - running.start_time;
+                running.exe_time_without_io += current_time - running.start_time;
+                running.start_time = -1;
+                sync_queue(job_list, running);
+
+                free_memory(running);
+                idle_CPU(running);
+            }
+        }
+
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
         // 2) Manage the wait queue
