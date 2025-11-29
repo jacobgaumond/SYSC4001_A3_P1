@@ -108,6 +108,8 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                     process.start_time = -1;
                     sync_queue(job_list, process);
                     ready_queue.push_back(process);
+
+                    execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
                 }
             }
         }
