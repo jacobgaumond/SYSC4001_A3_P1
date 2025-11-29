@@ -38,8 +38,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //make the output table (the header row)
     execution_status = print_exec_header();
 
-    //Loop until all processes from the input file are terminated (i.e., simulation complete)
-    while(!all_process_terminated(list_processes)) {
+    //Loop while till there are no ready or waiting processes.
+    //This is the main reason I have job_list, you don't have to use it.
+    while(!all_process_terminated(job_list) || job_list.empty()) {
 
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
