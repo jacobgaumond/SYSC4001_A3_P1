@@ -8,7 +8,17 @@
 
 #include"interrupts_DanielKuchanski_JacobGaumond.hpp"
 
-// helper function to produce a memory snapshot string appended to execution_status when a process is admitted
+void FCFS(std::vector<PCB> &ready_queue) {
+    std::sort( 
+                ready_queue.begin(),
+                ready_queue.end(),
+                []( const PCB &first, const PCB &second ){
+                    return (first.arrival_time < second.arrival_time); 
+                } 
+            );
+}
+
+// Helper: produce a memory snapshot string appended to execution_status when a process is admitted
 static std::string memory_snapshot_string() {
     std::stringstream ss;
     unsigned int total_used = 0;
@@ -38,16 +48,6 @@ static std::string memory_snapshot_string() {
     ss << "Total usable memory (sum of free partitions): " << usable_free << " MB\n\n";
 
     return ss.str();
-}
-
-void FCFS(std::vector<PCB> &ready_queue) {
-    std::sort( 
-                ready_queue.begin(),
-                ready_queue.end(),
-                []( const PCB &first, const PCB &second ){
-                    return (first.arrival_time > second.arrival_time); 
-                } 
-            );
 }
 
 // pick index in ready_queue of highest priority (lowest PID) process (returns -1 if none)
@@ -82,12 +82,12 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Initialize an empty running process
     idle_CPU(running);
 
-    //make the output table (the header row)
     std::string execution_status = print_exec_header();
-
+    
     const size_t total_processes = list_processes.size();
     size_t terminated_count = 0;
-        //Loop while till there are no ready or waiting processes.
+
+    //Loop while till there are no ready or waiting processes.
     //This is the main reason I have job_list, you don't have to use it.
     while(terminated_count < total_processes) {
         //Inside this loop, there are three things you must do:
@@ -220,17 +220,16 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
-
     return std::make_tuple(execution_status);
 }
 
 
 int main(int argc, char** argv) {
-
+    
     //Get the input file from the user
     if(argc != 2) {
         std::cout << "ERROR!\nExpected 1 argument, received " << argc - 1 << std::endl;
-        std::cout << "To run the program, do: ./interrutps <your_input_file.txt>" << std::endl;
+        std::cout << "To run the program, do: ./interrupts <your_input_file.txt>" << std::endl;
         return -1;
     }
 
@@ -238,24 +237,25 @@ int main(int argc, char** argv) {
     auto file_name = argv[1];
     std::ifstream input_file;
     input_file.open(file_name);
+    
 
     //Ensure that the file actually opens
     if (!input_file.is_open()) {
         std::cerr << "Error: Unable to open file: " << file_name << std::endl;
         return -1;
     }
-
+        
     //Parse the entire input file and populate a vector of PCBs.
     //To do so, the add_process() helper function is used (see include file).
     std::string line;
     std::vector<PCB> list_process;
     while(std::getline(input_file, line)) {
+        if(line.size() == 0) continue;
         auto input_tokens = split_delim(line, ", ");
         auto new_process = add_process(input_tokens);
         list_process.push_back(new_process);
     }
     input_file.close();
-
     //With the list of processes, run the simulation
     auto [exec] = run_simulation(list_process);
 
