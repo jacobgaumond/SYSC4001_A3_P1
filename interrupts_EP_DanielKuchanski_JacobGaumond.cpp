@@ -50,6 +50,23 @@ void FCFS(std::vector<PCB> &ready_queue) {
             );
 }
 
+// pick index in ready_queue of highest priority (lowest PID) process (returns -1 if none)
+static int pick_highest_priority_index(const std::vector<PCB> &ready_queue) {
+    if (ready_queue.empty()) return -1;
+    int best_idx = 0;
+    for (size_t i = 1; i < ready_queue.size(); ++i) {
+        if (ready_queue[i].PID < ready_queue[best_idx].PID) {
+            best_idx = static_cast<int>(i);
+        } else if (ready_queue[i].PID == ready_queue[best_idx].PID) {
+            // tie-breaker: earlier arrival_time wins
+            if (ready_queue[i].arrival_time < ready_queue[best_idx].arrival_time) {
+                best_idx = static_cast<int>(i);
+            }
+        }
+    }
+    return best_idx;
+}
+
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
 
     std::vector<PCB> ready_queue;   //The ready queue of processes
@@ -65,97 +82,103 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     //Initialize an empty running process
     idle_CPU(running);
 
-    std::string execution_status;
-
     //make the output table (the header row)
-    execution_status = print_exec_header();
+    std::string execution_status = print_exec_header();
 
-    //Loop while till there are no ready or waiting processes.
+    const size_t total_processes = list_processes.size();
+    size_t terminated_count = 0;
+        //Loop while till there are no ready or waiting processes.
     //This is the main reason I have job_list, you don't have to use it.
-    while(!all_process_terminated(job_list) || job_list.empty()) {
-
-        //Terminate running if finished
-        if(running.state != NOT_ASSIGNED) {
-            if(((current_time - running.start_time) - running.remaining_time) == 0) {
-                running.state = TERMINATED;
-                running.remaining_time -= current_time - running.start_time;
-                running.exe_time_without_io += current_time - running.start_time;
-                running.start_time = -1;
-                sync_queue(job_list, running);
-
-                free_memory(running);
-                idle_CPU(running);
-            }
-        }
-
+    while(terminated_count < total_processes) {
         //Inside this loop, there are three things you must do:
         // 1) Populate the ready queue with processes as they arrive
         // 2) Manage the wait queue
         // 3) Schedule processes from the ready queue
-
+        
         //Populate the ready queue with processes as they arrive
         for(auto &process : list_processes) {
             if(process.arrival_time == current_time) {//check if the AT = current time
                 //if so, change the process's state to NEW
                 process.state = NEW; //Set the process state to NEW
                 job_list.push_back(process); //Add it to the list of processes
-
-                execution_status += print_exec_status(current_time, process.PID, NOT_ASSIGNED, NEW);
             }
         }
-
+        
+        
         //Attempt to assign memory in the order of arrival (using job_list)
         for(auto &process : job_list) {
             if(process.state == NEW) { //Only assign memory to unadmitted processes
                 if(assign_memory(process)) {
                     //If memory assigned successfully, put the process into the ready queue and update its state
                     process.state = READY; //Set the process state to READY
+                    process.start_time = -1;
                     sync_queue(job_list, process);
                     ready_queue.push_back(process); //Add the process to the ready queue
-
                     execution_status += print_exec_status(current_time, process.PID, NEW, READY);
                 }
             }
         }
-
-        ///////////////////////MANAGE WAIT QUEUE/////////////////////////
-        //This mainly involves keeping track of how long a process must remain in the ready queue
-
-        //If the current RUNNING process is due for I/O, put it in the waiting queue
+    
+        // Running process handling
         if(running.state != NOT_ASSIGNED) {
-            if(((current_time - running.start_time) + running.exe_time_without_io) == running.io_freq) {
-                running.state = WAITING;
-                running.remaining_time -= current_time - running.start_time;
-                running.exe_time_without_io += current_time - running.start_time;
+            // advance running for 1 ms
+            running.remaining_time = (running.remaining_time > 0) ? running.remaining_time - 1 : 0;
+            running.exe_time_without_io += 1;
+            
+            //If the current RUNNING process is due for I/O, put it in the waiting queue
+            if (running.remaining_time == 0 && running.state == RUNNING) {
+                //Terminate running if finished
+                states old = running.state;
+                running.state = TERMINATED;
                 running.start_time = -1;
                 sync_queue(job_list, running);
-                wait_queue.push_back(running);
 
-                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING);
+                free_memory(running);
+                terminated_count += 1;
+                execution_status += print_exec_status(current_time, running.PID, old, TERMINATED);
+
+                idle_CPU(running);
+            }  else if (running.io_freq > 0 && running.exe_time_without_io >= running.io_freq && running.state == RUNNING) {
+                states old = running.state;
+                running.state = WAITING;
+                running.start_time = current_time;
+                sync_queue(job_list, running);
+                wait_queue.push_back(running);
+                execution_status += print_exec_status(current_time, running.PID, old, WAITING);
 
                 idle_CPU(running);
             }
         }
+        
+
+        ///////////////////////MANAGE WAIT QUEUE/////////////////////////
+        //This mainly involves keeping track of how long a process must remain in the ready queue
 
         //If I/O is available (it always is), send wait_queue processes to I/O
         while(wait_queue.size() > 0) {
             PCB waiting_process = dequeue_process(wait_queue);
-
-            waiting_process.exe_time_without_io = 0;
-            waiting_process.start_time = current_time;
-            sync_queue(job_list, waiting_process);
+            for (auto &proc : job_list) {
+                if (proc.PID == waiting_process.PID) {
+                    proc.exe_time_without_io = 0;
+                    proc.start_time = current_time; // I/O start
+                    sync_queue(job_list, proc);
+                    break;
+                }
+            }
         }
+        
 
         //If I/O is complete, send WAITING processes to the ready queue
         for(auto &process : job_list) {
             if(process.state == WAITING) {
-                if((current_time - process.start_time) == process.io_duration) {
+                if((current_time - process.start_time) >= process.io_duration) {
+                    states old = process.state;
                     process.state = READY;
                     process.start_time = -1;
                     sync_queue(job_list, process);
                     ready_queue.push_back(process);
 
-                    execution_status += print_exec_status(current_time, process.PID, WAITING, READY);
+                    execution_status += print_exec_status(current_time, process.PID, old, READY);
                 }
             }
         }
@@ -163,7 +186,32 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
+        // Scheduler: if CPU idle,  select highest priority READY process 
+        if (running.state == NOT_ASSIGNED) {
+            int idx = pick_highest_priority_index(ready_queue);
+            if (idx != -1) {
+                // remove selected PCB from ready_queue (by index)
+                PCB selected = ready_queue[idx];
+                // rebuild ready_queue without idx
+                std::vector<PCB> new_ready;
+                for (size_t i = 0; i < ready_queue.size(); ++i) {
+                    if (static_cast<int>(i) != idx) new_ready.push_back(ready_queue[i]);
+                }
+                ready_queue = std::move(new_ready);
+
+                // find authoritative entry in job_list and set it running
+                for (auto &proc : job_list) {
+                    if (proc.PID == selected.PID) {
+                        proc.state = RUNNING;
+                        proc.start_time = current_time;
+                        sync_queue(job_list, proc);
+                        running = proc;
+                        execution_status += print_exec_status(current_time, running.PID, READY, RUNNING);
+                        break;
+                    }
+                }
+            }
+        }
         /////////////////////////////////////////////////////////////////
 
         //End each cycle by incrementing the clock
