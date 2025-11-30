@@ -6,7 +6,39 @@
  * 
  */
 
-#include<interrupts_DanielKuchanski_JacobGaumond.hpp>
+#include"interrupts_DanielKuchanski_JacobGaumond.hpp"
+
+// helper function to produce a memory snapshot string appended to execution_status when a process is admitted
+static std::string memory_snapshot_string() {
+    std::stringstream ss;
+    unsigned int total_used = 0;
+    unsigned int total_free = 0;
+    unsigned int usable_free = 0;
+
+    ss << "\nMemory Snapshot:\n";
+
+    // Print partition usage
+    ss << "Partitions: ";
+    for (int i = 0; i < 6; ++i) {
+        ss << "[" << memory_paritions[i].partition_number << ": " 
+           << memory_paritions[i].size << "MB ";
+        if (memory_paritions[i].occupied == -1) {
+            ss << "FREE";
+            total_free += memory_paritions[i].size;
+            usable_free += memory_paritions[i].size;
+        } else {
+            ss << "USED(PID=" << memory_paritions[i].occupied << ")";
+            total_used += memory_paritions[i].size;
+        }
+        ss << "]";
+        if (i < 5) ss << " ";
+    }
+    ss << "\nTotal memory used: " << total_used << " MB\n";
+    ss << "Total free memory: " << total_free << " MB\n";
+    ss << "Total usable memory (sum of free partitions): " << usable_free << " MB\n\n";
+
+    return ss.str();
+}
 
 void FCFS(std::vector<PCB> &ready_queue) {
     std::sort( 
