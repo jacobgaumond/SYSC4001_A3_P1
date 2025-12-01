@@ -1,0 +1,48 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 25 |       NEW |     READY |
+|                 0 | 25 |     READY |   RUNNING |
+|                10 | 43 |       NEW |     READY |
+|                20 | 50 |       NEW |     READY |
+|                30 | 30 |       NEW |     READY |
+|                40 | 90 |       NEW |     READY |
+|               100 | 25 |   RUNNING |     READY |
+|               100 | 25 |     READY |   RUNNING |
+|               101 | 25 |   RUNNING |   WAITING |
+|               101 | 30 |     READY |   RUNNING |
+|               121 | 25 |   WAITING |     READY |
+|               131 | 30 |   RUNNING |TERMINATED |
+|               131 | 25 |     READY |   RUNNING |
+|               132 | 75 |       NEW |     READY |
+|               231 | 25 |   RUNNING |     READY |
+|               231 | 25 |     READY |   RUNNING |
+|               232 | 25 |   RUNNING |   WAITING |
+|               232 | 43 |     READY |   RUNNING |
+|               252 | 25 |   WAITING |     READY |
+|               262 | 43 |   RUNNING |TERMINATED |
+|               262 | 25 |     READY |   RUNNING |
+|               263 | 40 |       NEW |     READY |
+|               362 | 25 |   RUNNING |     READY |
+|               362 | 25 |     READY |   RUNNING |
+|               363 | 25 |   RUNNING |   WAITING |
+|               363 | 40 |     READY |   RUNNING |
+|               383 | 25 |   WAITING |     READY |
+|               393 | 40 |   RUNNING |TERMINATED |
+|               393 | 25 |     READY |   RUNNING |
+|               394 | 35 |       NEW |     READY |
+|               493 | 25 |   RUNNING |     READY |
+|               493 | 25 |     READY |   RUNNING |
+|               494 | 25 |   RUNNING |   WAITING |
+|               494 | 35 |     READY |   RUNNING |
+|               514 | 25 |   WAITING |     READY |
+|               524 | 35 |   RUNNING |TERMINATED |
+|               524 | 25 |     READY |   RUNNING |
+|               620 | 25 |   RUNNING |TERMINATED |
+|               620 | 50 |     READY |   RUNNING |
+|               650 | 50 |   RUNNING |TERMINATED |
+|               650 | 75 |     READY |   RUNNING |
+|               680 | 75 |   RUNNING |TERMINATED |
+|               680 | 90 |     READY |   RUNNING |
+|               710 | 90 |   RUNNING |TERMINATED |
++------------------------------------------------+

@@ -1,0 +1,44 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 20 |       NEW |     READY |
+|                 0 | 20 |     READY |   RUNNING |
+|                 5 | 10 |       NEW |     READY |
+|               100 | 20 |   RUNNING |     READY |
+|               100 | 10 |     READY |   RUNNING |
+|               130 | 10 |   RUNNING |   WAITING |
+|               130 | 20 |     READY |   RUNNING |
+|               140 | 10 |   WAITING |     READY |
+|               230 | 20 |   RUNNING |     READY |
+|               230 | 10 |     READY |   RUNNING |
+|               260 | 10 |   RUNNING |   WAITING |
+|               260 | 20 |     READY |   RUNNING |
+|               261 | 20 |   RUNNING |   WAITING |
+|               270 | 10 |   WAITING |     READY |
+|               270 | 10 |     READY |   RUNNING |
+|               300 | 10 |   RUNNING |   WAITING |
+|               310 | 10 |   WAITING |     READY |
+|               310 | 10 |     READY |   RUNNING |
+|               311 | 20 |   WAITING |     READY |
+|               340 | 10 |   RUNNING |   WAITING |
+|               340 | 20 |     READY |   RUNNING |
+|               350 | 10 |   WAITING |     READY |
+|               439 | 20 |   RUNNING |TERMINATED |
+|               439 | 10 |     READY |   RUNNING |
+|               469 | 10 |   RUNNING |   WAITING |
+|               479 | 10 |   WAITING |     READY |
+|               479 | 10 |     READY |   RUNNING |
+|               509 | 10 |   RUNNING |   WAITING |
+|               519 | 10 |   WAITING |     READY |
+|               519 | 10 |     READY |   RUNNING |
+|               549 | 10 |   RUNNING |   WAITING |
+|               559 | 10 |   WAITING |     READY |
+|               559 | 10 |     READY |   RUNNING |
+|               589 | 10 |   RUNNING |   WAITING |
+|               599 | 10 |   WAITING |     READY |
+|               599 | 10 |     READY |   RUNNING |
+|               629 | 10 |   RUNNING |   WAITING |
+|               639 | 10 |   WAITING |     READY |
+|               639 | 10 |     READY |   RUNNING |
+|               669 | 10 |   RUNNING |TERMINATED |
++------------------------------------------------+

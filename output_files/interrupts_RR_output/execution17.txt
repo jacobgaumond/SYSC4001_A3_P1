@@ -1,0 +1,48 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 25 |       NEW |     READY |
+|                 0 | 25 |     READY |   RUNNING |
+|                10 | 43 |       NEW |     READY |
+|                20 | 50 |       NEW |     READY |
+|                30 | 30 |       NEW |     READY |
+|                40 | 90 |       NEW |     READY |
+|               100 | 25 |   RUNNING |     READY |
+|               100 | 43 |     READY |   RUNNING |
+|               130 | 43 |   RUNNING |TERMINATED |
+|               130 | 50 |     READY |   RUNNING |
+|               131 | 75 |       NEW |     READY |
+|               160 | 50 |   RUNNING |TERMINATED |
+|               160 | 30 |     READY |   RUNNING |
+|               161 | 40 |       NEW |     READY |
+|               190 | 30 |   RUNNING |TERMINATED |
+|               190 | 90 |     READY |   RUNNING |
+|               191 | 35 |       NEW |     READY |
+|               220 | 90 |   RUNNING |TERMINATED |
+|               220 | 25 |     READY |   RUNNING |
+|               221 | 25 |   RUNNING |   WAITING |
+|               221 | 75 |     READY |   RUNNING |
+|               241 | 25 |   WAITING |     READY |
+|               251 | 75 |   RUNNING |TERMINATED |
+|               251 | 40 |     READY |   RUNNING |
+|               281 | 40 |   RUNNING |TERMINATED |
+|               281 | 35 |     READY |   RUNNING |
+|               311 | 35 |   RUNNING |TERMINATED |
+|               311 | 25 |     READY |   RUNNING |
+|               411 | 25 |   RUNNING |     READY |
+|               411 | 25 |     READY |   RUNNING |
+|               412 | 25 |   RUNNING |   WAITING |
+|               432 | 25 |   WAITING |     READY |
+|               432 | 25 |     READY |   RUNNING |
+|               532 | 25 |   RUNNING |     READY |
+|               532 | 25 |     READY |   RUNNING |
+|               533 | 25 |   RUNNING |   WAITING |
+|               553 | 25 |   WAITING |     READY |
+|               553 | 25 |     READY |   RUNNING |
+|               653 | 25 |   RUNNING |     READY |
+|               653 | 25 |     READY |   RUNNING |
+|               654 | 25 |   RUNNING |   WAITING |
+|               674 | 25 |   WAITING |     READY |
+|               674 | 25 |     READY |   RUNNING |
+|               770 | 25 |   RUNNING |TERMINATED |
++------------------------------------------------+

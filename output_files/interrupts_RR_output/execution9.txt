@@ -1,0 +1,37 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 |  7 |       NEW |     READY |
+|                 0 |  7 |     READY |   RUNNING |
+|               100 |  7 |   RUNNING |     READY |
+|               100 |  7 |     READY |   RUNNING |
+|               200 |  7 |   RUNNING |     READY |
+|               200 |  7 |     READY |   RUNNING |
+|               201 |  7 |   RUNNING |   WAITING |
+|               251 |  7 |   WAITING |     READY |
+|               251 |  7 |     READY |   RUNNING |
+|               351 |  7 |   RUNNING |     READY |
+|               351 |  7 |     READY |   RUNNING |
+|               451 |  7 |   RUNNING |     READY |
+|               451 |  7 |     READY |   RUNNING |
+|               452 |  7 |   RUNNING |   WAITING |
+|               502 |  7 |   WAITING |     READY |
+|               502 |  7 |     READY |   RUNNING |
+|               602 |  7 |   RUNNING |     READY |
+|               602 |  7 |     READY |   RUNNING |
+|               702 |  7 |   RUNNING |     READY |
+|               702 |  7 |     READY |   RUNNING |
+|               703 |  7 |   RUNNING |   WAITING |
+|               753 |  7 |   WAITING |     READY |
+|               753 |  7 |     READY |   RUNNING |
+|               853 |  7 |   RUNNING |     READY |
+|               853 |  7 |     READY |   RUNNING |
+|               953 |  7 |   RUNNING |     READY |
+|               953 |  7 |     READY |   RUNNING |
+|               954 |  7 |   RUNNING |   WAITING |
+|              1004 |  7 |   WAITING |     READY |
+|              1004 |  7 |     READY |   RUNNING |
+|              1104 |  7 |   RUNNING |     READY |
+|              1104 |  7 |     READY |   RUNNING |
+|              1200 |  7 |   RUNNING |TERMINATED |
++------------------------------------------------+
