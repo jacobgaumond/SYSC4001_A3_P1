@@ -13,7 +13,7 @@ schedulers=("EP"
             "EP_RR"
             )
 
-num_test_cases=10
+num_test_cases=20
 
 # Loop over each scheduler type
 for scheduler in "${schedulers[@]}"; do
